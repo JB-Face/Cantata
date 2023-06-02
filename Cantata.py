@@ -4,7 +4,7 @@ version:
 Author: JBFace
 Date: 2023-06-01 17:42:01
 LastEditors: JBFace
-LastEditTime: 2023-06-02 15:20:12
+LastEditTime: 2023-06-02 15:34:28
 '''
 import os
 import rich
@@ -36,7 +36,7 @@ def debug(str,type = '!',):
 class Cantata():
     def __init__(self) -> None:
         debug('hello!!! Cantata')
-        self.tool_class = {}#type: {name:class}}
+        self.tool_class = {}
         self.tab_list_fun = []
         self.app = QApplication(sys.argv)
         pass
@@ -44,14 +44,20 @@ class Cantata():
     def addTool(self,tool):
         tool_ins = tool()
         if tool.type not in self.tool_class:
-            self.tool_class.append(tool_ins.type)
-        self.tab_list_fun.append(tool_ins.main_widget)
+            self.tool_class[tool_ins.type] = {}
+
+        self.tool_class[tool_ins.type][tool_ins.name] = tool_ins
+
+        # self.tab_list_fun.append(tool_ins.main_widget)
 
         pass
 
     def init_layout(self):
         for i in self.tool_class:
-            GUI.tab_addtab(self.main_layout,str(i))
+            type_layout = GUI.tab_addtab(self.main_layout,str(i),True)
+            for ins in self.tool_class[i]:
+                ins_layout = GUI.tab_addtab(type_layout,str(ins))
+
 
 
 

@@ -63,8 +63,12 @@ class GUI():
         return widget
     
     @classmethod
-    def tab_addtab(cls,layout,text):
-        tab_label = QLabel()
+    def tab_addtab(cls,layout,text,tab = False):
+        
+        if tab:
+             tab_label = QTabWidget()
+        else:
+            tab_label = QLabel()
         layout.addTab(tab_label,text)
         return tab_label
     
