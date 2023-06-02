@@ -4,7 +4,7 @@ version:
 Author: JBFace
 Date: 2023-06-01 17:42:01
 LastEditors: JBFace
-LastEditTime: 2023-06-02 15:34:28
+LastEditTime: 2023-06-02 18:22:15
 '''
 import os
 import rich
@@ -17,7 +17,7 @@ from GUI import MainWindow,GUI
 from ini import ini
     
 install()
-console = Console()
+console = Console(tab_size = 16)
 
 global log_gui
 log_gui = None
@@ -45,18 +45,15 @@ class Cantata():
         tool_ins = tool()
         if tool.type not in self.tool_class:
             self.tool_class[tool_ins.type] = {}
-
         self.tool_class[tool_ins.type][tool_ins.name] = tool_ins
 
-        # self.tab_list_fun.append(tool_ins.main_widget)
-
-        pass
 
     def init_layout(self):
         for i in self.tool_class:
             type_layout = GUI.tab_addtab(self.main_layout,str(i),True)
             for ins in self.tool_class[i]:
                 ins_layout = GUI.tab_addtab(type_layout,str(ins))
+                ins_layout.setLayout(self.tool_class[i][ins].main_widget)
 
 
 
@@ -71,7 +68,7 @@ class Cantata():
 
         self.init_layout()
 
-        self.window.resize(200, 200)
+        self.window.resize(400, 400)
         self.window.show()
         debug('buging')
         sys.exit(self.app.exec())
@@ -97,4 +94,5 @@ class Tool():
         pass
 
     def execute(self):
+        # todo: 实现多线程
         pass

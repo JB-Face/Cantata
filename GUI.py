@@ -4,12 +4,12 @@ version:
 Author: JBFace
 Date: 2023-06-01 20:03:27
 LastEditors: JBFace
-LastEditTime: 2023-06-02 14:44:57
+LastEditTime: 2023-06-02 23:06:09
 '''
 
 from PySide6.QtWidgets import (QApplication, QHeaderView, QHBoxLayout, QLabel, QLineEdit,
                                QMainWindow, QPushButton, QTableWidget, QTableWidgetItem,
-                               QVBoxLayout, QWidget,QProgressBar,QTabWidget)
+                               QVBoxLayout,QFileDialog, QWidget,QProgressBar,QTabWidget)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -57,10 +57,8 @@ class GUI():
     
     @classmethod
     def main_widgt_layout(cls):
-        widget =  QLabel()
         layout = QVBoxLayout()
-        widget.setLayout(layout)
-        return widget
+        return layout
     
     @classmethod
     def tab_addtab(cls,layout,text,tab = False):
@@ -73,8 +71,49 @@ class GUI():
         return tab_label
     
     @classmethod
-    def text(cls,text):
-        return QLabel(text = text)
+    def text(cls,text,layout):
+        label = QLabel(text = text)
+        return layout.addWidget(label)
+    
+    @classmethod
+    def run_button(cls,text,layout,fun):
+        button = QPushButton(text)
+        layout.addWidget(button)
+        button.clicked.connect(fun)
+        return button
+    
+
+    @classmethod
+    def file_select(cls,text,layout):
+        select_layout = QHBoxLayout()
+
+        select_text = QLabel(text = text)
+        select_target = QLabel(text = '未选择文件')
+        select_button = QPushButton(text = '文件选择')
+
+        def open_file():
+            path_var = QFileDialog.getExistingDirectory(None,"C:\\Users\\user\\Desktop")
+            select_target.setText(str(path_var))
+
+        select_button.clicked.connect(open_file)
+
+        select_layout.addWidget(select_text,stretch=2)
+        select_layout.addWidget(select_target,stretch=6)
+        select_layout.addWidget(select_button,stretch=2)
+
+        layout.addLayout(select_layout)
+
+        return select_target
+
+    @classmethod
+    def string_input(cls,text,layout):
+        pass
+
+    @classmethod
+    def check_box(cls,text,layout):
+        pass
+
+
 
 
 
