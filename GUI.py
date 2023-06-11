@@ -4,14 +4,17 @@ version:
 Author: JBFace
 Date: 2023-06-01 20:03:27
 LastEditors: JBFace
-LastEditTime: 2023-06-02 23:06:09
+LastEditTime: 2023-06-11 22:36:12
 '''
 
 from PySide6.QtWidgets import (QApplication, QHeaderView, QHBoxLayout, QLabel, QLineEdit,
                                QMainWindow, QPushButton, QTableWidget, QTableWidgetItem,
-                               QVBoxLayout,QFileDialog, QWidget,QProgressBar,QTabWidget)
-
+                               QVBoxLayout,QFileDialog, QWidget,QProgressBar,QTabWidget,QMessageBox,)
+from PySide6.QtCore import QThread,QObject, Signal, Slot
 class MainWindow(QMainWindow):
+
+    progress_var = Signal(int)
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.setWindowTitle("Cantata!")
@@ -25,6 +28,8 @@ class MainWindow(QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
         self.setCentralWidget(self.main_widget)
+
+        self.progress_var.connect(self.update_progress_bar)
     
 
     def set_tab(self):
@@ -41,14 +46,25 @@ class MainWindow(QMainWindow):
 
         self._status_bar_text = QLabel(text='Cantata 0.1. have a nice day ')
         self.progress_bar = QProgressBar()
+        self.progress_bar.setMaximum(100)
+        self.progress_bar.setMinimum(0)
 
         self.statusBar().addWidget(self._status_bar_text,stretch=9)
         self.statusBar().addWidget(self.progress_bar,stretch=1)
 
 
-    def set_status_text(self,text):
+    def set_status_text(self,text,color = 'black'):
         self._status_bar_text.setText(text)
+        self._status_bar_text.setStyleSheet("QLabel {color : "+ color+"; }");
         return 0
+    
+    @Slot(int)
+    def update_progress_bar(self, value):
+        self.progress_bar.setValue(value)
+
+    def enable_gui(self,bool):
+        self.setEnabled(bool)
+
 
 class GUI():
 

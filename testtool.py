@@ -4,11 +4,11 @@ version:
 Author: JBFace
 Date: 2023-06-01 22:26:16
 LastEditors: JBFace
-LastEditTime: 2023-06-02 17:44:03
+LastEditTime: 2023-06-11 23:05:53
 '''
 from Cantata import Tool,debug
 from GUI import GUI
-
+from PySide6.QtCore import QThread, Signal, Qt
 class test_sleep(Tool):
 
     type= '文件工具'
@@ -26,8 +26,7 @@ class test_sleep(Tool):
         
         # self.main_widget.addWidget() 
     def execute(self):
-        debug('test_sleep,execute debug')
-
+        pass
 class test_debugp(Tool):
 
     type= '测试工具'
@@ -36,3 +35,23 @@ class test_debugp(Tool):
 
     def draw(self):
         pass
+
+import time
+class test_nuilt_thread(Tool):
+
+    type= '测试工具'
+    name ="多线程测试"
+    info = "测试多线程的功能是否正常"
+
+    def draw(self):
+        GUI.run_button('run',self.main_widget,self.start)
+
+    def execute(self):
+        for i in range(100):
+            self.bar_log(str(i))
+            time.sleep(0.05)
+            self.bar_progress(int = i)
+
+
+
+       

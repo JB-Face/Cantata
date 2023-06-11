@@ -12,6 +12,7 @@
 
 # 使用的库
 rich： https://github.com/textualize/rich/blob/master/README.cn.md
+
 pyside6:gui
 
 

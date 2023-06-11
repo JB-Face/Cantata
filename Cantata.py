@@ -4,7 +4,7 @@ version:
 Author: JBFace
 Date: 2023-06-01 17:42:01
 LastEditors: JBFace
-LastEditTime: 2023-06-02 18:22:15
+LastEditTime: 2023-06-11 23:00:59
 '''
 import os
 import rich
@@ -12,6 +12,7 @@ import sys
 from rich.console import Console
 from rich.traceback import install
 from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import QThread,QObject, Signal, Slot
 
 from GUI import MainWindow,GUI
 from ini import ini
@@ -74,7 +75,7 @@ class Cantata():
         sys.exit(self.app.exec())
 
 
-class Tool():
+class Tool(QThread):
     '''
     msg: 初始化 一个 工具，请加入 ctx中
     param {*}
@@ -86,13 +87,55 @@ class Tool():
     info : str = "None"
 
     def __init__(self) -> None:
+        super().__init__()
         self.main_widget = GUI.main_widgt_layout()
         self.draw()
-        pass
 
     def draw(self):
         pass
 
     def execute(self):
-        # todo: 实现多线程
         pass
+
+    # 多线程
+    def run(self):
+        self.gui_enable()
+        self.execute()#执行用户内容
+        self.stop()
+
+
+    def bar_log(self,str,color = 'black'):
+        global log_gui
+        if log_gui:
+            log_gui.set_status_text(str,color)
+
+
+    def bar_progress(self,int):
+        global log_gui
+        if log_gui:
+            # 需要一个信号进行绑定
+            log_gui.progress_var.emit(int)
+
+
+    def stop(self):
+        global log_gui
+        if log_gui:
+            # 需要一个信号进行绑定
+            self.bar_log('完成',color = 'green')
+            self.bar_progress(int = 0)
+            log_gui.enable_gui(True)
+
+    def gui_enable(self):
+        global log_gui
+        if log_gui:
+            log_gui.enable_gui(False)
+
+
+
+    
+
+            
+    
+
+
+

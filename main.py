@@ -4,7 +4,7 @@ version:
 Author: JBFace
 Date: 2023-06-01 17:54:01
 LastEditors: JBFace
-LastEditTime: 2023-06-02 18:21:30
+LastEditTime: 2023-06-10 19:38:25
 '''
 try:
     import colorama
@@ -21,14 +21,14 @@ except  ImportError:
     
 
 from Cantata import Cantata
-
-from testtool import test_sleep,test_debugp
+from testtool import test_sleep,test_debugp,test_nuilt_thread
 from imagesTool import textureconver
 
 toolclass = [
 test_sleep,
 test_debugp,
-textureconver
+textureconver,
+test_nuilt_thread
 ]
 
 def main():
