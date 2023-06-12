@@ -4,7 +4,7 @@ version:
 Author: JBFace
 Date: 2023-06-01 17:42:01
 LastEditors: JBFace
-LastEditTime: 2023-06-11 23:00:59
+LastEditTime: 2023-06-12 17:40:56
 '''
 import os
 import rich
@@ -23,12 +23,12 @@ console = Console(tab_size = 16)
 global log_gui
 log_gui = None
 
-def debug(str,type = '!',):
+def debug(log,type = '!',):
     if ini.DEBUG:
-        console.log(str)
+        console.log(log)
         global log_gui
         if log_gui:
-            log_gui.set_status_text(str)
+            log_gui.set_status_text(str(log))
         pass
     else:
         pass
@@ -54,7 +54,7 @@ class Cantata():
             type_layout = GUI.tab_addtab(self.main_layout,str(i),True)
             for ins in self.tool_class[i]:
                 ins_layout = GUI.tab_addtab(type_layout,str(ins))
-                ins_layout.setLayout(self.tool_class[i][ins].main_widget)
+                ins_layout.setLayout(self.tool_class[i][ins].parent_layout)
 
 
 
@@ -89,6 +89,10 @@ class Tool(QThread):
     def __init__(self) -> None:
         super().__init__()
         self.main_widget = GUI.main_widgt_layout()
+        self.parent_layout = GUI.main_widgt_layout()
+        self.parent_layout.addLayout(self.main_widget,stretch=8)
+        self.infogui = GUI.info(text = self.info,layout=self.parent_layout,stretch=2)
+
         self.draw()
 
     def draw(self):

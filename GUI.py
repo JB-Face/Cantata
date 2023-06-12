@@ -4,13 +4,14 @@ version:
 Author: JBFace
 Date: 2023-06-01 20:03:27
 LastEditors: JBFace
-LastEditTime: 2023-06-11 22:36:12
+LastEditTime: 2023-06-12 17:36:41
 '''
 
 from PySide6.QtWidgets import (QApplication, QHeaderView, QHBoxLayout, QLabel, QLineEdit,
                                QMainWindow, QPushButton, QTableWidget, QTableWidgetItem,
-                               QVBoxLayout,QFileDialog, QWidget,QProgressBar,QTabWidget,QMessageBox,)
-from PySide6.QtCore import QThread,QObject, Signal, Slot
+                               QVBoxLayout,QFileDialog, QWidget,QProgressBar,QTabWidget,QMessageBox,QCheckBox)
+from PySide6.QtCore import QThread,QObject, Signal, Slot,Qt
+
 class MainWindow(QMainWindow):
 
     progress_var = Signal(int)
@@ -89,7 +90,8 @@ class GUI():
     @classmethod
     def text(cls,text,layout):
         label = QLabel(text = text)
-        return layout.addWidget(label)
+        layout.addWidget(label)
+        return label.text
     
     @classmethod
     def run_button(cls,text,layout,fun):
@@ -119,15 +121,37 @@ class GUI():
 
         layout.addLayout(select_layout)
 
-        return select_target
+        return select_target.text
 
     @classmethod
     def string_input(cls,text,layout):
-        pass
+        input_layout = QHBoxLayout()
+        input_text = QLabel(text = text)
+        input = QLineEdit(text)
+
+        input_layout.addWidget(input_text,stretch=2)
+        input_layout.addWidget(input,stretch=8)
+
+        layout.addLayout(input_layout)
+        return input.text
 
     @classmethod
     def check_box(cls,text,layout):
-        pass
+        check_box = QCheckBox()
+        check_box.setText(text)
+        layout.addWidget(check_box)
+        return check_box.isChecked
+    
+    @classmethod
+    def info(cls,text,layout,stretch=None):
+        info = QLabel(text = text)
+        # info.setStyleSheet("border:1px solid ;")
+        info.setStyleSheet("background: rgb(230,230,230) ;")
+        if stretch != None:
+            layout.addWidget(info,stretch=stretch,alignment=Qt.AlignmentFlag.AlignBottom)
+        else:
+            layout.addWidget(info)        
+        return info
 
 
 
