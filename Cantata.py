@@ -4,6 +4,14 @@ version:
 Author: JBFace
 Date: 2023-06-01 17:42:01
 LastEditors: JBFace
+LastEditTime: 2023-06-12 22:13:11
+'''
+'''
+Descripttion: 
+version: 
+Author: JBFace
+Date: 2023-06-01 17:42:01
+LastEditors: JBFace
 LastEditTime: 2023-06-12 18:30:11
 '''
 import os
@@ -40,10 +48,12 @@ class Cantata():
         self.tool_class = {}
         self.tab_list_fun = []
         self.app = QApplication(sys.argv)
-
-        with open("style.qss", "r") as f:
-            _style = f.read()
-            self.app.setStyleSheet(_style)
+        try:
+            with open("style.qss", "r") as f:
+                _style = f.read()
+                self.app.setStyleSheet(_style)
+        except:
+            pass
 
         pass
 

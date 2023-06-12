@@ -1,2 +1,6 @@
 *.pyc
 test.py
+build/*
+Cantata/*
+dist/*
+main.spec
